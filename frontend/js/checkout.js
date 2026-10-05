@@ -6,8 +6,24 @@ X.0 — CHECKOUT
 // CONFIGURATION API
 // ============================================================
 
-const API_URL =
-"http://localhost:3000";
+const API_URL = "";
+const response =
+    await fetch(
+        `${API_URL}/create-checkout-session`,
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization":
+                    `Bearer ${currentToken}`
+            },
+
+            body: JSON.stringify({
+                plan: currentPlan
+            })
+        }
+    );
 
 // ============================================================
 // RÉCUPÉRATION DU TOKEN
