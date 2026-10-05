@@ -1,258 +1,299 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
 
-    <meta charset="UTF-8">
+ 
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>X.0 — Checkout</title>
+<meta
+    name="description"
+    content="X.0 — Finalisez votre commande Minecraft Hosting."
+>
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
+<title>
+    X.0 — Checkout
+</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+ 
 
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-    <header class="navbar">
+<header class="navbar">
 
-        <div class="logo">
-            X<span>.</span>0
+ 
+<a
+    href="index.html"
+    class="logo"
+>
+    X<span>.</span>0
+</a>
+
+<nav>
+
+    <a href="index.html">
+        Accueil
+    </a>
+
+    <a href="minecraft-hosting.html">
+        Modifier mon offre
+    </a>
+
+    <a href="dashboard.html">
+        Mon compte
+    </a>
+
+</nav>
+ 
+
+</header>
+
+<!-- =====================================================
+     CHECKOUT
+===================================================== -->
+
+<main class="checkout-page">
+
+ 
+<section class="checkout-header">
+
+    <div class="badge">
+        ⚡ X.0 CHECKOUT
+    </div>
+
+    <h1>
+
+        Finaliser votre
+        <span>commande.</span>
+
+    </h1>
+
+    <p>
+        Vérifiez votre offre avant de continuer.
+    </p>
+
+</section>
+
+
+<section class="checkout-layout">
+
+
+    <!-- =================================================
+         RÉCAPITULATIF
+    ================================================== -->
+
+    <div class="checkout-card">
+
+        <div class="checkout-card-header">
+
+            <span>
+                🎮
+            </span>
+
+            <div>
+
+                <small>
+                    SERVICE
+                </small>
+
+                <h2>
+                    Minecraft Hosting
+                </h2>
+
+            </div>
+
         </div>
 
-        <nav>
 
-<a href="index.html">Accueil</a>
-<a href="minecraft.html">Modifier mon offre</a>
-<a href="dashboard.html">Mon compte</a>
+        <div class="checkout-plan">
 
-        </nav>
+            <div>
 
-    </header>
+                <span class="checkout-label">
+                    Offre sélectionnée
+                </span>
 
-
-    <!-- CHECKOUT -->
-
-    <main class="checkout-page">
-
-        <section class="checkout-header">
-
-            <div class="badge">
-                ⚡ X.0 CHECKOUT
-            </div>
-
-            <h1>
-                Finaliser votre
-                <span>commande.</span>
-            </h1>
-
-            <p>
-                Vérifiez votre offre avant de continuer.
-            </p>
-
-        </section>
-
-
-        <section class="checkout-layout">
-
-
-            <!-- RÉCAPITULATIF -->
-
-            <div class="checkout-card">
-
-                <div class="checkout-card-header">
-
-                    <span>
-                        🎮
-                    </span>
-
-                    <div>
-
-                        <small>
-                            SERVICE
-                        </small>
-
-                        <h2>
-                            Minecraft Hosting
-                        </h2>
-
-                    </div>
-
-                </div>
-
-
-                <div class="checkout-plan">
-
-                    <div>
-
-                        <span class="checkout-label">
-                            Offre sélectionnée
-                        </span>
-
-                        <h3 id="planName">
-                            Chargement...
-                        </h3>
-
-                    </div>
-
-                    <div class="checkout-price">
-
-                        <strong id="planPrice">
-                            -- €
-                        </strong>
-
-                        <span>
-                            / mois
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="checkout-specs">
-
-                    <div>
-
-                        <span>
-                            RAM
-                        </span>
-
-                        <strong id="planRam">
-                            --
-                        </strong>
-
-                    </div>
-
-                    <div>
-
-                        <span>
-                            CPU
-                        </span>
-
-                        <strong id="planCpu">
-                            --
-                        </strong>
-
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Stockage SSD
-                        </span>
-
-                        <strong id="planStorage">
-                            --
-                        </strong>
-
-                    </div>
-
-                    <div>
-
-                        <span>
-                            Bases de données
-                        </span>
-
-                        <strong id="planDatabase">
-                            --
-                        </strong>
-
-                    </div>
-
-                </div>
+                <h3 id="planName">
+                    Chargement...
+                </h3>
 
             </div>
 
+            <div class="checkout-price">
 
-            <!-- COMMANDE -->
+                <strong id="planPrice">
+                    -- €
+                </strong>
 
-            <div class="checkout-card order-card">
-
-                <div class="checkout-title">
-
-                    <span>
-                        01
-                    </span>
-
-                    <h2>
-                        Votre commande
-                    </h2>
-
-                </div>
-
-
-                <div class="order-line">
-
-                    <span>
-                        Minecraft Hosting
-                    </span>
-
-                    <strong id="orderPrice">
-                        -- €
-                    </strong>
-
-                </div>
-
-
-                <div class="order-line">
-
-                    <span>
-                        Installation
-                    </span>
-
-                    <strong>
-                        0,00 €
-                    </strong>
-
-                </div>
-
-
-                <div class="order-total">
-
-                    <span>
-                        Total mensuel
-                    </span>
-
-                    <strong id="totalPrice">
-                        -- €
-                    </strong>
-
-                </div>
-
-
-                <button
-                    class="btn-primary checkout-button"
-                    onclick="continueCheckout()"
-                >
-                    Continuer →
-                </button>
-
-
-                <button
-                    class="checkout-back"
-                    onclick="goBack()"
-                >
-                    ← Modifier mon offre
-                </button>
+                <span>
+                    / mois
+                </span>
 
             </div>
 
-        </section>
-
-    </main>
+        </div>
 
 
-    <script src="js/checkout.js"></script>
+        <div class="checkout-specs">
+
+            <div>
+
+                <span>
+                    RAM
+                </span>
+
+                <strong id="planRam">
+                    --
+                </strong>
+
+            </div>
+
+            <div>
+
+                <span>
+                    CPU
+                </span>
+
+                <strong id="planCpu">
+                    --
+                </strong>
+
+            </div>
+
+            <div>
+
+                <span>
+                    Stockage SSD
+                </span>
+
+                <strong id="planStorage">
+                    --
+                </strong>
+
+            </div>
+
+            <div>
+
+                <span>
+                    Bases de données
+                </span>
+
+                <strong id="planDatabase">
+                    --
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         COMMANDE
+    ================================================== -->
+
+    <div class="checkout-card order-card">
+
+        <div class="checkout-title">
+
+            <span>
+                01
+            </span>
+
+            <h2>
+                Votre commande
+            </h2>
+
+        </div>
+
+
+        <div class="order-line">
+
+            <span>
+                Minecraft Hosting
+            </span>
+
+            <strong id="orderPrice">
+                -- €
+            </strong>
+
+        </div>
+
+
+        <div class="order-line">
+
+            <span>
+                Installation
+            </span>
+
+            <strong>
+                0,00 €
+            </strong>
+
+        </div>
+
+
+        <div class="order-total">
+
+            <span>
+                Total mensuel
+            </span>
+
+            <strong id="totalPrice">
+                -- €
+            </strong>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-primary checkout-button"
+            onclick="continueCheckout()"
+        >
+            Continuer →
+        </button>
+
+
+        <button
+            type="button"
+            class="checkout-back"
+            onclick="goBack()"
+        >
+            ← Modifier mon offre
+        </button>
+
+        <p
+            id="checkoutMessage"
+            class="message"
+            role="alert"
+        ></p>
+
+    </div>
+
+</section>
+ 
+
+</main>
+
+<script src="js/checkout.js"></script>
 
 </body>
 

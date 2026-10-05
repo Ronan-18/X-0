@@ -1,236 +1,487 @@
-// ================================
-// X.0 CHECKOUT
-// ================================
+/* ============================================================
+X.0 — CHECKOUT
+============================================================ */
+
+// ============================================================
+// CONFIGURATION API
+// ============================================================
+
+const API_URL =
+"http://localhost:3000";
+
+// ============================================================
+// RÉCUPÉRATION DU TOKEN
+// ============================================================
 
 const token =
-    localStorage.getItem("x0_token");
+localStorage.getItem("x0_token");
+
+// ============================================================
+// RÉCUPÉRATION DU PLAN
+// ============================================================
+
+// Priorité : URL → localStorage
+const urlParams =
+new URLSearchParams(window.location.search);
+
+const urlPlan =
+urlParams.get("plan");
+
+if (urlPlan) {
+
+ 
+localStorage.setItem(
+    "x0_selected_plan",
+    urlPlan
+);
+ 
+
+}
 
 const selectedPlan =
-    localStorage.getItem("x0_selected_plan");
+urlPlan ||
+localStorage.getItem("x0_selected_plan");
 
-// ================================
-// VÉRIFICATION
-// ================================
+// ============================================================
+// OFFRES X.0
+// ============================================================
+
+const plans = {
+
+ 
+starter: {
+
+    name: "X.0 Starter",
+    price: "2,99 €",
+    ram: "2 Go",
+    cpu: "100%",
+    storage: "20 Go",
+    database: "1"
+
+},
+
+standard: {
+
+    name: "X.0 Standard",
+    price: "5,99 €",
+    ram: "4 Go",
+    cpu: "200%",
+    storage: "40 Go",
+    database: "2"
+
+},
+
+pro: {
+
+    name: "X.0 Pro",
+    price: "9,99 €",
+    ram: "8 Go",
+    cpu: "300%",
+    storage: "80 Go",
+    database: "4"
+
+},
+
+premium: {
+
+    name: "X.0 Premium",
+    price: "17,99 €",
+    ram: "16 Go",
+    cpu: "400%",
+    storage: "160 Go",
+    database: "8"
+
+}
+ 
+
+};
+
+// ============================================================
+// ÉLÉMENTS HTML
+// ============================================================
+
+const planNameElement =
+document.getElementById("planName");
+
+const planPriceElement =
+document.getElementById("planPrice");
+
+const planRamElement =
+document.getElementById("planRam");
+
+const planCpuElement =
+document.getElementById("planCpu");
+
+const planStorageElement =
+document.getElementById("planStorage");
+
+const planDatabaseElement =
+document.getElementById("planDatabase");
+
+const orderPriceElement =
+document.getElementById("orderPrice");
+
+const totalPriceElement =
+document.getElementById("totalPrice");
+
+const checkoutMessageElement =
+document.getElementById("checkoutMessage");
+
+const checkoutButton =
+document.querySelector(".checkout-button");
+
+// ============================================================
+// MESSAGE
+// ============================================================
+
+function showMessage(message) {
+
+ 
+if (!checkoutMessageElement) {
+    return;
+}
+
+checkoutMessageElement.textContent =
+    message;
+ 
+
+}
+
+// ============================================================
+// VÉRIFICATION DU TOKEN
+// ============================================================
 
 if (!token) {
 
+ 
+alert(
+    "🔐 Connecte-toi à ton compte X.0 avant de commander."
+);
+
+window.location.href =
+    "index.html";
+ 
+
+}
+
+// ============================================================
+// VÉRIFICATION DU PLAN
+// ============================================================
+
+if (
+!selectedPlan ||
+!plans[selectedPlan]
+) {
+
+ 
+alert(
+    "❌ Aucune offre Minecraft sélectionnée."
+);
+
+window.location.href =
+    "minecraft-hosting.html";
+ 
+
+}
+
+// ============================================================
+// PLAN ACTUEL
+// ============================================================
+
+const plan =
+plans[selectedPlan];
+
+// ============================================================
+// AFFICHAGE DU PLAN
+// ============================================================
+
+if (plan) {
+
+ 
+if (planNameElement) {
+
+    planNameElement.textContent =
+        plan.name;
+
+}
+
+if (planPriceElement) {
+
+    planPriceElement.textContent =
+        plan.price;
+
+}
+
+if (planRamElement) {
+
+    planRamElement.textContent =
+        plan.ram;
+
+}
+
+if (planCpuElement) {
+
+    planCpuElement.textContent =
+        plan.cpu;
+
+}
+
+if (planStorageElement) {
+
+    planStorageElement.textContent =
+        plan.storage;
+
+}
+
+if (planDatabaseElement) {
+
+    planDatabaseElement.textContent =
+        plan.database;
+
+}
+
+if (orderPriceElement) {
+
+    orderPriceElement.textContent =
+        plan.price;
+
+}
+
+if (totalPriceElement) {
+
+    totalPriceElement.textContent =
+        plan.price;
+
+}
+ 
+
+}
+
+// ============================================================
+// CONTINUER VERS STRIPE
+// ============================================================
+
+async function continueCheckout() {
+
+ 
+// ========================================================
+// VÉRIFICATION SESSION
+// ========================================================
+
+const currentToken =
+    localStorage.getItem("x0_token");
+
+if (!currentToken) {
+
     alert(
-        "🔐 Connecte-toi à ton compte X.0."
+        "🔐 Ta session a expiré. Connecte-toi à nouveau."
     );
 
     window.location.href =
         "index.html";
 
+    return;
+
 }
 
+// ========================================================
+// VÉRIFICATION PLAN
+// ========================================================
 
-// ================================
-// OFFRES
-// ================================
+const currentPlan =
+    localStorage.getItem("x0_selected_plan") ||
+    urlPlan;
 
-const plans = {
-
-    starter: {
-
-        name: "X.0 Starter",
-        price: "2,99 €",
-        ram: "2 Go",
-        cpu: "100%",
-        storage: "20 Go",
-        database: "1"
-
-    },
-
-    standard: {
-
-        name: "X.0 Standard",
-        price: "5,99 €",
-        ram: "4 Go",
-        cpu: "200%",
-        storage: "40 Go",
-        database: "2"
-
-    },
-
-    pro: {
-
-        name: "X.0 Pro",
-        price: "9,99 €",
-        ram: "8 Go",
-        cpu: "300%",
-        storage: "80 Go",
-        database: "4"
-
-    },
-
-    premium: {
-
-        name: "X.0 Premium",
-        price: "17,99 €",
-        ram: "16 Go",
-        cpu: "400%",
-        storage: "160 Go",
-        database: "8"
-
-    }
-
-};
-
-
-// ================================
-// VÉRIFIER L'OFFRE
-// ================================
-
-if (!selectedPlan || !plans[selectedPlan]) {
+if (
+    !currentPlan ||
+    !plans[currentPlan]
+) {
 
     alert(
-        "❌ Aucune offre sélectionnée."
+        "❌ Offre invalide."
     );
 
     window.location.href =
-        "minecraft.html";
+        "minecraft-hosting.html";
+
+    return;
 
 }
 
+// ========================================================
+// VÉRIFICATION BOUTON
+// ========================================================
 
-// ================================
-// AFFICHER L'OFFRE
-// ================================
+if (!checkoutButton) {
+    return;
+}
 
-const plan =
-    plans[selectedPlan];
+// ========================================================
+// ÉTAT CHARGEMENT
+// ========================================================
 
+checkoutButton.disabled =
+    true;
 
-document.getElementById(
-    "planName"
-).textContent =
-    plan.name;
+checkoutButton.textContent =
+    "Création du paiement...";
 
+showMessage(
+    "Connexion sécurisée à X.0..."
+);
 
-document.getElementById(
-    "planPrice"
-).textContent =
-    plan.price;
+try {
 
+    // ====================================================
+    // APPEL BACKEND
+    // ====================================================
 
-document.getElementById(
-    "planRam"
-).textContent =
-    plan.ram;
+    const response =
+        await fetch(
+            `${API_URL}/create-checkout-session`,
+            {
 
+                method: "POST",
 
-document.getElementById(
-    "planCpu"
-).textContent =
-    plan.cpu;
+                headers: {
 
+                    "Content-Type":
+                        "application/json",
 
-document.getElementById(
-    "planStorage"
-).textContent =
-    plan.storage;
+                    "Authorization":
+                        `Bearer ${currentToken}`
 
+                },
 
-document.getElementById(
-    "planDatabase"
-).textContent =
-    plan.database;
+                body: JSON.stringify({
 
+                    plan:
+                        currentPlan
 
-document.getElementById(
-    "orderPrice"
-).textContent =
-    plan.price;
+                })
 
+            }
+        );
 
-document.getElementById(
-    "totalPrice"
-).textContent =
-    plan.price;
+    // ====================================================
+    // LECTURE RÉPONSE
+    // ====================================================
 
-
-// ================================
-// CONTINUER
-// ================================
-
-async function continueCheckout() {
-
-    const button =
-        document.querySelector(".checkout-button");
-
-    button.disabled = true;
-
-    button.textContent =
-        "Création du paiement...";
+    let data;
 
     try {
 
-        const response =
-            await fetch(
-                "http://localhost:3000/create-checkout-session",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json",
-
-                        "Authorization":
-                            `Bearer ${token}`
-                    },
-
-                    body: JSON.stringify({
-
-                        plan:
-                            selectedPlan
-
-                    })
-                }
-            );
-
-        const data =
+        data =
             await response.json();
 
-        if (!response.ok || !data.success) {
+    } catch {
 
-            throw new Error(
-                data.message ||
-                "Erreur lors de la création du paiement."
-            );
-
-        }
-
-        window.location.href =
-            data.url;
-
-    } catch (error) {
-
-        console.error(
-            "❌ Erreur Checkout :",
-            error
+        throw new Error(
+            "Le serveur X.0 a renvoyé une réponse invalide."
         );
-
-        alert(
-            "❌ Impossible de créer le paiement.\n\n" +
-            error.message
-        );
-
-        button.disabled = false;
-
-        button.textContent =
-            "Continuer →";
 
     }
 
+    // ====================================================
+    // ERREUR API
+    // ====================================================
+
+    if (
+        !response.ok ||
+        !data.success
+    ) {
+
+        throw new Error(
+            data.message ||
+            "Impossible de créer la session Stripe."
+        );
+
+    }
+
+    // ====================================================
+    // VÉRIFICATION URL STRIPE
+    // ====================================================
+
+    if (!data.url) {
+
+        throw new Error(
+            "Stripe n'a pas retourné d'URL de paiement."
+        );
+
+    }
+
+    console.log(
+        "✅ Session Stripe créée :",
+        data.url
+    );
+
+    showMessage(
+        "✅ Paiement créé. Redirection vers Stripe..."
+    );
+
+    // ====================================================
+    // REDIRECTION STRIPE
+    // ====================================================
+
+    window.location.href =
+        data.url;
+
+} catch (error) {
+
+    console.error(
+        "❌ Erreur Checkout :",
+        error
+    );
+
+    showMessage(
+        `❌ ${error.message}`
+    );
+
+    alert(
+        "❌ Impossible de créer le paiement.\n\n" +
+        error.message
+    );
+
+    checkoutButton.disabled =
+        false;
+
+    checkoutButton.textContent =
+        "Continuer →";
+
+}
+ 
+
 }
 
-// ================================
-// RETOUR
-// ================================
+// ============================================================
+// RETOUR AUX OFFRES
+// ============================================================
 
 function goBack() {
 
-    window.location.href =
-        "minecraft.html";
+ 
+window.location.href =
+    "minecraft-hosting.html";
+ 
 
 }
+
+// ============================================================
+// DEBUG
+// ============================================================
+
+console.log(
+"🚀 X.0 Checkout chargé."
+);
+
+console.log(
+"🛒 Plan sélectionné :",
+selectedPlan
+);
+
+console.log(
+"🔐 Token présent :",
+Boolean(
+localStorage.getItem("x0_token")
+)
+);
