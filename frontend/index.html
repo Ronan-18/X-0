@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="X.0 — Hébergement nouvelle génération. Game Hosting, serveurs Minecraft, Web Hosting et VPS."
+    >
+
+    <meta
+        name="keywords"
+        content="X.0, hosting, Minecraft hosting, serveur Minecraft, Pterodactyl, VPS, web hosting"
+    >
+
+    <meta
+        name="author"
+        content="X.0"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <meta
+        name="theme-color"
+        content="#05070b"
+    >
+
+    <meta
+        property="og:title"
+        content="X.0 — Infrastructure nouvelle génération"
+    >
+
+    <meta
+        property="og:description"
+        content="Déployez et gérez vos serveurs avec X.0."
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <title>
+        X.0 — Infrastructure nouvelle génération
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <a
+        href="index.html"
+        class="logo"
+        aria-label="X.0"
+    >
+        X<span>.</span>0
+    </a>
+
+
+    <nav aria-label="Navigation principale">
+
+        <a href="#accueil">
+            Accueil
+        </a>
+
+        <a href="#services">
+            Services
+        </a>
+
+        <a href="minecraft.html">
+            Game Hosting
+        </a>
+
+        <a href="#infrastructure">
+            Infrastructure
+        </a>
+
+    </nav>
+
+
+    <div
+        class="nav-buttons"
+        id="authButtons"
+    >
+
+        <button
+            class="btn-secondary"
+            onclick="openLogin()"
+        >
+            Connexion
+        </button>
+
+        <button
+            class="btn-primary"
+            onclick="openRegister()"
+        >
+            Créer un compte
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section
+    id="accueil"
+    class="hero x0-hero"
+>
+
+
+    <div class="hero-glow glow-one"></div>
+
+    <div class="hero-glow glow-two"></div>
+
+
+    <div class="hero-content">
+
+
+        <div class="badge">
+
+            <span class="status-dot"></span>
+
+            Infrastructure X.0
+
+            <span class="badge-separator">
+                •
+            </span>
+
+            France / Europe
+
+        </div>
+
+
+        <h1>
+
+            Votre infrastructure.
+            <span>
+                Votre contrôle.
+            </span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+            Déployez vos serveurs, hébergez vos projets
+            et gérez vos ressources depuis une infrastructure
+            conçue pour évoluer avec vous.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <button
+                class="btn-primary big"
+                onclick="openRegister()"
+            >
+
+                Commencer maintenant
+
+                <span>
+                    →
+                </span>
+
+            </button>
+
+
+            <a
+                href="#services"
+                class="btn-secondary big"
+            >
+                Découvrir X.0
+            </a>
+
+        </div>
+
+
+        <div class="hero-note">
+
+            <span>✓</span>
+            Déploiement rapide
+
+            <span>•</span>
+
+            Ressources évolutives
+
+            <span>•</span>
+
+            Gestion centralisée
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         PTERODACTYL PANEL PREVIEW
+    ================================================== -->
+
+    <div class="hero-dashboard">
+
+
+        <div class="dashboard-window">
+
+
+            <!-- PANEL HEADER -->
+
+            <div class="window-top">
+
+                <div class="window-dots">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+
+                <div class="window-title">
+
+                    PTERODACTYL PANEL
+
+                </div>
+
+
+                <div class="window-status">
+
+                    ● ONLINE
+
+                </div>
+
+            </div>
+
+
+
+            <div class="window-body">
+
+
+                <!-- SIDEBAR -->
+
+                <aside class="preview-sidebar">
+
+
+                    <div class="preview-logo">
+
+                        X<span>.</span>0
+
+                    </div>
+
+
+                    <div class="panel-user">
+
+                        <div class="panel-avatar">
+                            X
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                X.0 Hosting
+                            </strong>
+
+                            <small>
+                                Client Area
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="preview-section-title">
+                        SERVERS
+                    </div>
+
+
+                    <div class="preview-nav active">
+
+                        <span class="nav-mini-icon">
+                            ▦
+                        </span>
+
+                        Servers
+
+                    </div>
+
+
+                    <div class="preview-nav">
+
+                        <span class="nav-mini-icon">
+                            ◉
+                        </span>
+
+                        Account
+
+                    </div>
+
+
+                    <div class="preview-section-title">
+                        MANAGEMENT
+                    </div>
+
+
+                    <div class="preview-nav">
+
+                        <span class="nav-mini-icon">
+                            ⚙
+                        </span>
+
+                        Settings
+
+                    </div>
+
+
+                    <div class="preview-nav">
+
+                        <span class="nav-mini-icon">
+                            ↪
+                        </span>
+
+                        Logout
+
+                    </div>
+
+
+                </aside>
+
+
+
+                <!-- PANEL CONTENT -->
+
+                <div class="preview-content">
+
+
+                    <div class="ptero-breadcrumb">
+
+                        <span>
+                            X.0
+                        </span>
+
+                        <b>
+                            /
+                        </b>
+
+                        Servers
+
+                    </div>
+
+
+                    <div class="preview-heading">
+
+
+                        <div>
+
+                            <small>
+                                PTERODACTYL PANEL
+                            </small>
+
+                            <h3>
+                                Servers
+                            </h3>
+
+                        </div>
+
+
+                        <div class="ptero-user-status">
+
+                            <span></span>
+
+                            Node connection active
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SERVER CARD -->
+
+                    <div class="ptero-server-card">
+
+
+                        <div class="ptero-server-icon">
+                            🎮
+                        </div>
+
+
+                        <div class="ptero-server-main">
+
+
+                            <div class="ptero-server-title">
+
+                                <strong>
+                                    Minecraft Survival
+                                </strong>
+
+                                <span class="server-online">
+                                    ONLINE
+                                </span>
+
+                            </div>
+
+
+                            <small>
+                                Minecraft Java Edition
+                            </small>
+
+
+                            <div class="ptero-server-node">
+
+                                <span>
+                                    Node
+                                </span>
+
+                                <strong>
+                                    X0-FR-01
+                                </strong>
+
+                                <span class="separator">
+                                    •
+                                </span>
+
+                                <span>
+                                    Wings
+                                </span>
+
+                                <strong>
+                                    Connected
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="ptero-server-resources">
+
+
+                            <div>
+
+                                <span>
+                                    CPU
+                                </span>
+
+                                <strong>
+                                    Resource
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    RAM
+                                </span>
+
+                                <strong>
+                                    Allocated
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    DISK
+                                </span>
+
+                                <strong>
+                                    Allocated
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SECOND SERVER -->
+
+                    <div class="ptero-server-card">
+
+
+                        <div class="ptero-server-icon ptero-icon-vps">
+                            🖥
+                        </div>
+
+
+                        <div class="ptero-server-main">
+
+
+                            <div class="ptero-server-title">
+
+                                <strong>
+                                    Development Server
+                                </strong>
+
+                                <span class="server-online">
+                                    ONLINE
+                                </span>
+
+                            </div>
+
+
+                            <small>
+                                Application / Development
+                            </small>
+
+
+                            <div class="ptero-server-node">
+
+                                <span>
+                                    Node
+                                </span>
+
+                                <strong>
+                                    X0-FR-01
+                                </strong>
+
+                                <span class="separator">
+                                    •
+                                </span>
+
+                                <span>
+                                    Wings
+                                </span>
+
+                                <strong>
+                                    Connected
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="ptero-server-resources">
+
+
+                            <div>
+
+                                <span>
+                                    CPU
+                                </span>
+
+                                <strong>
+                                    Resource
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    RAM
+                                </span>
+
+                                <strong>
+                                    Allocated
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    DISK
+                                </span>
+
+                                <strong>
+                                    Allocated
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PTERODACTYL FOOTER -->
+
+                    <div class="ptero-footer">
+
+                        <span>
+                            PTERODACTYL
+                        </span>
+
+                        <span>
+                            Wings
+                        </span>
+
+                        <span>
+                            Server Management
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     STATS
+===================================================== -->
+
+<section class="x0-stats">
+
+
+    <div class="stat-item">
+
+        <strong>
+            99.9%
+        </strong>
+
+        <span>
+            Disponibilité cible
+        </span>
+
+    </div>
+
+
+    <div class="stat-item">
+
+        <strong>
+            &lt; 60s
+        </strong>
+
+        <span>
+            Déploiement cible
+        </span>
+
+    </div>
+
+
+    <div class="stat-item">
+
+        <strong>
+            24/7
+        </strong>
+
+        <span>
+            Surveillance
+        </span>
+
+    </div>
+
+
+    <div class="stat-item">
+
+        <strong>
+            🇫🇷
+        </strong>
+
+        <span>
+            Infrastructure européenne
+        </span>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SERVICES
+===================================================== -->
+
+<section
+    id="services"
+    class="section x0-services"
+>
+
+
+    <div class="section-heading">
+
+
+        <div>
+
+            <span class="section-number">
+                01 / SERVICES
+            </span>
+
+
+            <h2>
+
+                Des services simples.
+                <span>
+                    Une infrastructure solide.
+                </span>
+
+            </h2>
+
+        </div>
+
+
+        <p>
+
+            Commencez avec un service adapté à votre projet
+            et faites évoluer vos ressources au fur et à mesure
+            de vos besoins.
+
+        </p>
+
+    </div>
+
+
+
+    <div class="cards x0-service-grid">
+
+
+        <!-- GAME HOSTING -->
+
+        <a
+            href="minecraft.html"
+            class="card x0-service-card featured-service"
+        >
+
+
+            <div class="service-card-top">
+
+                <div class="icon">
+                    🎮
+                </div>
+
+                <span class="service-arrow">
+                    ↗
+                </span>
+
+            </div>
+
+
+            <span class="service-tag">
+                DISPONIBLE
+            </span>
+
+
+            <h3>
+                Game Hosting
+            </h3>
+
+
+            <p>
+
+                Hébergez vos serveurs Minecraft et autres jeux
+                grâce à une gestion basée sur Pterodactyl
+                et une infrastructure évolutive.
+
+            </p>
+
+
+            <div class="service-link">
+                Voir les offres →
+            </div>
+
+        </a>
+
+
+
+        <!-- WEB -->
+
+        <div class="card x0-service-card">
+
+
+            <div class="service-card-top">
+
+                <div class="icon">
+                    🌐
+                </div>
+
+                <span class="service-arrow">
+                    ↗
+                </span>
+
+            </div>
+
+
+            <span class="service-tag">
+                PROCHAINEMENT
+            </span>
+
+
+            <h3>
+                Web Hosting
+            </h3>
+
+
+            <p>
+
+                Hébergement de sites, applications et projets
+                web sur l'infrastructure X.0.
+
+            </p>
+
+
+            <div class="service-link muted">
+                Disponible prochainement
+            </div>
+
+        </div>
+
+
+
+        <!-- VPS -->
+
+        <div class="card x0-service-card">
+
+
+            <div class="service-card-top">
+
+                <div class="icon">
+                    🖥️
+                </div>
+
+                <span class="service-arrow">
+                    ↗
+                </span>
+
+            </div>
+
+
+            <span class="service-tag">
+                PROCHAINEMENT
+            </span>
+
+
+            <h3>
+                VPS
+            </h3>
+
+
+            <p>
+
+                Des environnements virtuels pour vos applications,
+                bots, services et projets professionnels.
+
+            </p>
+
+
+            <div class="service-link muted">
+                Disponible prochainement
+            </div>
+
+        </div>
+
+
+
+        <!-- BACKUP -->
+
+        <div class="card x0-service-card">
+
+
+            <div class="service-card-top">
+
+                <div class="icon">
+                    💾
+                </div>
+
+                <span class="service-arrow">
+                    ↗
+                </span>
+
+            </div>
+
+
+            <span class="service-tag">
+                PROCHAINEMENT
+            </span>
+
+
+            <h3>
+                Backup & Storage
+            </h3>
+
+
+            <p>
+
+                Solutions de stockage et de sauvegarde pour
+                protéger les données de vos services.
+
+            </p>
+
+
+            <div class="service-link muted">
+                Disponible prochainement
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WHY X.0
+===================================================== -->
+
+<section class="section x0-why">
+
+
+    <div class="section-heading centered">
+
+
+        <span class="section-number">
+            02 / POURQUOI X.0
+        </span>
+
+
+        <h2>
+
+            Une approche
+            <span>
+                simple de l'hébergement.
+            </span>
+
+        </h2>
+
+
+        <p>
+
+            X.0 rassemble infrastructure, gestion des services
+            et expérience client dans une seule plateforme.
+
+        </p>
+
+    </div>
+
+
+
+    <div class="why-grid">
+
+
+        <div class="why-card">
+
+            <div class="why-number">
+                01
+            </div>
+
+            <div class="icon">
+                ⚡
+            </div>
+
+            <h3>
+                Déploiement
+            </h3>
+
+            <p>
+
+                Des services conçus pour être déployés rapidement
+                sans configuration inutile.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="why-card">
+
+            <div class="why-number">
+                02
+            </div>
+
+            <div class="icon">
+                🔒
+            </div>
+
+            <h3>
+                Fiabilité
+            </h3>
+
+            <p>
+
+                Une infrastructure surveillée et administrée
+                pour maintenir vos services disponibles.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="why-card">
+
+            <div class="why-number">
+                03
+            </div>
+
+            <div class="icon">
+                🎛️
+            </div>
+
+            <h3>
+                Gestion
+            </h3>
+
+            <p>
+
+                Vos serveurs sont administrés depuis une interface
+                basée sur Pterodactyl.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="why-card">
+
+            <div class="why-number">
+                04
+            </div>
+
+            <div class="icon">
+                📈
+            </div>
+
+            <h3>
+                Évolution
+            </h3>
+
+            <p>
+
+                Commencez avec les ressources nécessaires
+                et augmentez-les lorsque votre projet grandit.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     INFRASTRUCTURE
+===================================================== -->
+
+<section
+    id="infrastructure"
+    class="section infrastructure-section"
+>
+
+
+    <div class="infrastructure-banner">
+
+
+        <div class="infra-content">
+
+
+            <span class="section-number">
+                03 / INFRASTRUCTURE
+            </span>
+
+
+            <h2>
+
+                Des serveurs physiques.
+                <span>
+                    Une infrastructure réelle.
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                X.0 est construit autour de serveurs physiques
+                regroupés en racks. Les ressources sont ensuite
+                organisées en nœuds et administrées avec Pterodactyl
+                et Wings pour les services compatibles.
+
+            </p>
+
+
+            <div class="infra-specs">
+
+
+                <div class="infra-spec">
+
+                    <strong>
+                        RACK
+                    </strong>
+
+                    <span>
+                        Infrastructure physique
+                    </span>
+
+                </div>
+
+
+                <div class="infra-spec">
+
+                    <strong>
+                        NODE
+                    </strong>
+
+                    <span>
+                        Serveur physique
+                    </span>
+
+                </div>
+
+
+                <div class="infra-spec">
+
+                    <strong>
+                        WINGS
+                    </strong>
+
+                    <span>
+                        Gestion des serveurs
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn-primary"
+                onclick="openRegister()"
+            >
+                Rejoindre X.0 →
+            </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             REALISTIC SERVER RACKS
+        ================================================== -->
+
+        <div class="rack-visual">
+
+
+            <div class="rack-room">
+
+
+                <div class="rack-room-header">
+
+                    <span>
+                        X.0 / SERVER ROOM
+                    </span>
+
+                    <span class="rack-room-status">
+                        INFRASTRUCTURE
+                    </span>
+
+                </div>
+
+
+
+                <div class="rack-floor-glow"></div>
+
+
+
+                <div class="rack-array">
+
+
+                    <!-- RACK 01 -->
+
+                    <div class="physical-rack">
+
+                        <div class="rack-top">
+
+                            <span>
+                                RACK 01
+                            </span>
+
+                            <small>
+                                42U
+                            </small>
+
+                        </div>
+
+
+                        <div class="rack-frame">
+
+
+                            <div class="rack-rails"></div>
+
+
+                            <div class="rack-server-unit">
+
+                                <span class="u-label">
+                                    42
+                                </span>
+
+                                <div class="server-front">
+
+                                    <div class="server-leds">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+
+                                    <div class="server-drive">
+                                        ▪ ▪ ▪ ▪
+                                    </div>
+
+                                    <strong>
+                                        NODE 01
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rack-server-unit">
+
+                                <span class="u-label">
+                                    41
+                                </span>
+
+                                <div class="server-front">
+
+                                    <div class="server-leds">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+
+                                    <div class="server-drive">
+                                        ▪ ▪ ▪ ▪
+                                    </div>
+
+                                    <strong>
+                                        NODE 02
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rack-server-unit">
+
+                                <span class="u-label">
+                                    40
+                                </span>
+
+                                <div class="server-front">
+
+                                    <div class="server-leds">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+
+                                    <div class="server-drive">
+                                        ▪ ▪ ▪ ▪
+                                    </div>
+
+                                    <strong>
+                                        NODE 03
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rack-blank"></div>
+
+
+                            <div class="rack-server-unit">
+
+                                <span class="u-label">
+                                    37
+                                </span>
+
+                                <div class="server-front">
+
+                                    <div class="server-leds">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+
+                                    <div class="server-drive">
+                                        ▪ ▪ ▪ ▪
+                                    </div>
+
+                                    <strong>
+                                        NODE 04
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rack-blank"></div>
+
+
+                            <div class="rack-power">
+
+                                <span>
+                                    POWER
+                                </span>
+
+                                <div>
+                                    ● ● ● ●
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- RACK 02 -->
+
+                    <div class="physical-rack">
+
+                        <div class="rack-top">
+
+                            <span>
+                                RACK 02
+                            </span>
+
+                            <small>
+                                42U
+                            </small>
+
+                        </div>
+
+
+                        <div class="rack-frame">
+
+
+                            <div class="rack-server-unit">
+
+                                <span class="u-label">
+                                    42
+                                </span>
+
+                                <div class="server-front">
+
+                                    <div class="server-leds">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+
+                                    <div class="server-drive">
+                                        ▪ ▪ ▪ ▪
+                                    </div>
+
+                                    <strong>
+                                        NODE 05
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rack-server-unit">
+
+                                <span class="u-label">
+                                    41
+                                </span>
+
+                                <div class="server-front">
+
+                                    <div class="server-leds">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+
+                                    <div class="server-drive">
+                                        ▪ ▪ ▪ ▪
+                                    </div>
+
+                                    <strong>
+                                        NODE 06
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rack-server-unit">
+
+                                <span class="u-label">
+                                    40
+                                </span>
+
+                                <div class="server-front">
+
+                                    <div class="server-leds">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+
+                                    <div class="server-drive">
+                                        ▪ ▪ ▪ ▪
+                                    </div>
+
+                                    <strong>
+                                        NODE 07
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rack-blank"></div>
+
+
+                            <div class="rack-server-unit">
+
+                                <span class="u-label">
+                                    37
+                                </span>
+
+                                <div class="server-front">
+
+                                    <div class="server-leds">
+                                        <i></i>
+                                        <i></i>
+                                        <i></i>
+                                    </div>
+
+                                    <div class="server-drive">
+                                        ▪ ▪ ▪ ▪
+                                    </div>
+
+                                    <strong>
+                                        NODE 08
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="rack-power">
+
+                                <span>
+                                    POWER
+                                </span>
+
+                                <div>
+                                    ● ● ● ●
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="rack-caption">
+
+                    <span>
+                        PHYSICAL INFRASTRUCTURE
+                    </span>
+
+                    <span>
+                        RACK / SERVER / NODE
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section class="section x0-cta">
+
+
+    <div class="cta-box">
+
+
+        <span class="section-number">
+            X.0 / GET STARTED
+        </span>
+
+
+        <h2>
+
+            Prêt à lancer
+            <span>
+                votre serveur ?
+            </span>
+
+        </h2>
+
+
+        <p>
+
+            Créez votre compte X.0 et choisissez
+            l'offre adaptée à votre projet.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+
+            <button
+                class="btn-primary big"
+                onclick="openRegister()"
+            >
+                Créer mon compte →
+            </button>
+
+
+            <a
+                href="minecraft.html"
+                class="btn-secondary big"
+            >
+                Voir Game Hosting
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+
+    <div class="footer-main">
+
+
+        <div class="footer-brand">
+
+
+            <a
+                href="index.html"
+                class="logo"
+            >
+                X<span>.</span>0
+            </a>
+
+
+            <p>
+
+                Hébergement et infrastructure
+                pour vos projets.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="footer-column">
+
+
+            <h4>
+                Services
+            </h4>
+
+
+            <a href="minecraft.html">
+                Game Hosting
+            </a>
+
+
+            <a href="#services">
+                Web Hosting
+            </a>
+
+
+            <a href="#services">
+                VPS
+            </a>
+
+
+            <a href="#services">
+                Backup & Storage
+            </a>
+
+        </div>
+
+
+
+        <div class="footer-column">
+
+
+            <h4>
+                X.0
+            </h4>
+
+
+            <a href="#accueil">
+                Accueil
+            </a>
+
+
+            <a href="#infrastructure">
+                Infrastructure
+            </a>
+
+
+            <a href="#services">
+                Services
+            </a>
+
+
+            <a href="dashboard.html">
+                Espace client
+            </a>
+
+        </div>
+
+
+
+        <div class="footer-column">
+
+
+            <h4>
+                Client
+            </h4>
+
+
+            <button onclick="openLogin()">
+                Connexion
+            </button>
+
+
+            <button onclick="openRegister()">
+                Créer un compte
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="footer-bottom">
+
+
+        <span>
+            © 2026 X.0 — Tous droits réservés.
+        </span>
+
+
+        <span>
+            Game Hosting powered by Pterodactyl.
+        </span>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     LOGIN MODAL
+===================================================== -->
+
+<div
+    id="loginModal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="loginTitle"
+>
+
+
+    <div class="modal-box">
+
+
+        <button
+            class="close"
+            onclick="closeModals()"
+            aria-label="Fermer"
+        >
+            ×
+        </button>
+
+
+        <div class="modal-logo">
+            X<span>.</span>0
+        </div>
+
+
+        <h2 id="loginTitle">
+            Bienvenue sur X.0
+        </h2>
+
+
+        <p class="modal-subtitle">
+            Connectez-vous à votre espace client.
+        </p>
+
+
+        <form id="loginForm">
+
+
+            <label for="loginEmail">
+                Adresse email
+            </label>
+
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="vous@exemple.fr"
+                autocomplete="email"
+                required
+            >
+
+
+            <label for="loginPassword">
+                Mot de passe
+            </label>
+
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Votre mot de passe"
+                autocomplete="current-password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="btn-primary full"
+            >
+                Se connecter
+            </button>
+
+        </form>
+
+
+        <p
+            id="loginMessage"
+            class="message"
+            role="alert"
+        ></p>
+
+
+        <p class="switch">
+
+            Pas encore de compte ?
+
+            <button onclick="switchToRegister()">
+                Créer un compte
+            </button>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     REGISTER MODAL
+===================================================== -->
+
+<div
+    id="registerModal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="registerTitle"
+>
+
+
+    <div class="modal-box">
+
+
+        <button
+            class="close"
+            onclick="closeModals()"
+            aria-label="Fermer"
+        >
+            ×
+        </button>
+
+
+        <div class="modal-logo">
+            X<span>.</span>0
+        </div>
+
+
+        <h2 id="registerTitle">
+            Créer votre compte
+        </h2>
+
+
+        <p class="modal-subtitle">
+            Rejoignez X.0.
+        </p>
+
+
+        <form id="registerForm">
+
+
+            <label for="registerEmail">
+                Adresse email
+            </label>
+
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="vous@exemple.fr"
+                autocomplete="email"
+                required
+            >
+
+
+            <label for="registerPassword">
+                Mot de passe
+            </label>
+
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="8 caractères minimum"
+                minlength="8"
+                autocomplete="new-password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="btn-primary full"
+            >
+                Créer mon compte
+            </button>
+
+        </form>
+
+
+        <p
+            id="registerMessage"
+            class="message"
+            role="alert"
+        ></p>
+
+
+        <p class="switch">
+
+            Déjà client ?
+
+            <button onclick="switchToLogin()">
+                Se connecter
+            </button>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>
