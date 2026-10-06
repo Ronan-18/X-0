@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Database = require("better-sqlite3");
 const Stripe = require("stripe");
+const path = require("path");
 
 const app = express();
 
@@ -19,8 +20,13 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET =
     process.env.JWT_SECRET || "X0_DEV_SECRET_CHANGE_ME";
 
+const PUBLIC_URL =
+    process.env.PUBLIC_URL || `http://localhost:${PORT}`;
+
 if (!process.env.STRIPE_SECRET_KEY) {
-    console.error("❌ STRIPE_SECRET_KEY manquant dans le fichier .env");
+    console.error(
+        "❌ STRIPE_SECRET_KEY manquant dans le fichier .env"
+    );
 }
 
 const stripe = new Stripe(
@@ -29,19 +35,45 @@ const stripe = new Stripe(
 
 
 // ======================================================
+// CHEMINS
+// ======================================================
+
+const FRONTEND_PATH =
+    path.join(__dirname, "..", "frontend");
+
+const DATABASE_PATH =
+    path.join(__dirname, "x0.db");
+
+
+// ======================================================
 // MIDDLEWARE DE BASE
 // ======================================================
 
-app.use(express.static("../frontend"));
+// Le frontend est servi directement par X.0
+app.use(
+    express.static(FRONTEND_PATH)
+);
 
-app.use(cors());
+
+// CORS principalement utile si le frontend
+// est temporairement servi depuis une autre origine.
+app.use(
+    cors({
+        credentials: true
+    })
+);
 
 
 // ======================================================
 // BASE DE DONNÉES
 // ======================================================
 
-const db = new Database("x0.db");
+const db =
+    new Database(DATABASE_PATH);
+
+console.log(
+    "✅ Base de données X.0 connectée"
+);
 
 
 // ======================================================
@@ -57,8 +89,9 @@ db.prepare(`
     )
 `).run();
 
-console.log("✅ Base de données X.0 connectée");
-console.log("✅ Table users vérifiée");
+console.log(
+    "✅ Table users vérifiée"
+);
 
 
 // ======================================================
@@ -111,7 +144,9 @@ function addColumnIfMissing(
 
     const columns =
         db
-            .prepare(`PRAGMA table_info(${table})`)
+            .prepare(
+                `PRAGMA table_info(${table})`
+            )
             .all();
 
     const exists =
@@ -164,29 +199,234 @@ addColumnIfMissing(
 );
 
 
-console.log("✅ Table orders vérifiée");
+console.log(
+    "✅ Table orders vérifiée"
+);
+
+
+// ======================================================
+// COOKIE DE SESSION
+// ======================================================
+
+const COOKIE_NAME =
+    "x0_session";
+
+
+// ======================================================
+// OUTILS COOKIE
+// ======================================================
+
+function isProduction() {
+
+    return (
+        process.env.NODE_ENV ===
+        "production"
+    );
+}
+
+
+function setSessionCookie(
+    res,
+    token
+) {
+
+    const maxAge =
+        7 * 24 * 60 * 60 * 1000;
+
+    const secure =
+        isProduction();
+
+    const cookieParts = [
+
+        `${COOKIE_NAME}=${encodeURIComponent(token)}`,
+
+        "HttpOnly",
+
+        "Path=/",
+
+        "SameSite=Lax",
+
+        `Max-Age=${Math.floor(
+            maxAge / 1000
+        )}`
+
+    ];
+
+    if (secure) {
+
+        cookieParts.push(
+            "Secure"
+        );
+    }
+
+    res.setHeader(
+        "Set-Cookie",
+        cookieParts.join("; ")
+    );
+}
+
+
+function clearSessionCookie(
+    res
+) {
+
+    const cookieParts = [
+
+        `${COOKIE_NAME}=`,
+
+        "HttpOnly",
+
+        "Path=/",
+
+        "SameSite=Lax",
+
+        "Max-Age=0"
+
+    ];
+
+    if (isProduction()) {
+
+        cookieParts.push(
+            "Secure"
+        );
+    }
+
+    res.setHeader(
+        "Set-Cookie",
+        cookieParts.join("; ")
+    );
+}
+
+
+function getCookie(
+    req,
+    name
+) {
+
+    const cookieHeader =
+        req.headers.cookie;
+
+    if (!cookieHeader) {
+        return null;
+    }
+
+    const cookies =
+        cookieHeader
+            .split(";")
+            .map(
+                item => item.trim()
+            );
+
+    const cookie =
+        cookies.find(
+            item =>
+                item.startsWith(
+                    `${name}=`
+                )
+        );
+
+    if (!cookie) {
+        return null;
+    }
+
+    return decodeURIComponent(
+        cookie.substring(
+            name.length + 1
+        )
+    );
+}
+
+
+// ======================================================
+// AUTHENTIFICATION
+// ======================================================
+
+function getAuthenticatedUser(
+    req
+) {
+
+    const token =
+        getCookie(
+            req,
+            COOKIE_NAME
+        );
+
+    if (!token) {
+
+        return null;
+    }
+
+    try {
+
+        return jwt.verify(
+            token,
+            JWT_SECRET
+        );
+
+    } catch {
+
+        return null;
+    }
+}
+
+
+function authenticateToken(
+    req,
+    res,
+    next
+) {
+
+    const user =
+        getAuthenticatedUser(
+            req
+        );
+
+    if (!user) {
+
+        return res.status(401).json({
+
+            success: false,
+
+            message:
+                "Connexion requise."
+
+        });
+    }
+
+    req.user =
+        user;
+
+    next();
+}
 
 
 // ======================================================
 // STRIPE WEBHOOK
-// IMPORTANT : DOIT ÊTRE AVANT express.json()
+// IMPORTANT : AVANT express.json()
 // ======================================================
 
 app.post(
     "/stripe/webhook",
+
     express.raw({
         type: "application/json"
     }),
+
     async (req, res) => {
 
         const signature =
-            req.headers["stripe-signature"];
+            req.headers[
+                "stripe-signature"
+            ];
 
         let event;
 
         try {
 
-            if (!process.env.STRIPE_WEBHOOK_SECRET) {
+            if (
+                !process.env
+                    .STRIPE_WEBHOOK_SECRET
+            ) {
 
                 console.error(
                     "❌ STRIPE_WEBHOOK_SECRET manquant."
@@ -197,17 +437,15 @@ app.post(
                 );
             }
 
-
             event =
                 stripe.webhooks.constructEvent(
                     req.body,
                     signature,
-                    process.env.STRIPE_WEBHOOK_SECRET
+                    process.env
+                        .STRIPE_WEBHOOK_SECRET
                 );
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             console.error(
                 "❌ Signature Stripe invalide :",
@@ -226,7 +464,7 @@ app.post(
 
 
         // ==================================================
-        // PAIEMENT / CHECKOUT TERMINÉ
+        // CHECKOUT TERMINÉ
         // ==================================================
 
         if (
@@ -245,7 +483,9 @@ app.post(
                         FROM orders
                         WHERE stripe_session_id = ?
                     `)
-                    .get(session.id);
+                    .get(
+                        session.id
+                    );
 
 
             if (!order) {
@@ -261,14 +501,22 @@ app.post(
             }
 
 
-            // ----------------------------------------------
-            // ÉVITER DE TRAITER DEUX FOIS LA COMMANDE
-            // ----------------------------------------------
+            // ==================================================
+            // IDEMPOTENCE
+            // ==================================================
 
             if (
-                order.status === "paid" ||
-                order.status === "provisioning" ||
-                order.status === "active"
+                order.status ===
+                    "paid" ||
+
+                order.status ===
+                    "provisioning" ||
+
+                order.status ===
+                    "waiting_for_pterodactyl" ||
+
+                order.status ===
+                    "active"
             ) {
 
                 console.log(
@@ -281,19 +529,24 @@ app.post(
             }
 
 
-            // ----------------------------------------------
-            // RÉCUPÉRATION ABONNEMENT
-            // ----------------------------------------------
+            // ==================================================
+            // ABONNEMENT
+            // ==================================================
 
             const subscriptionId =
-                typeof session.subscription === "string"
+                typeof session.subscription ===
+                "string"
+
                     ? session.subscription
-                    : session.subscription?.id || null;
+
+                    : session
+                        .subscription
+                        ?.id || null;
 
 
-            // ----------------------------------------------
-            // MISE À JOUR COMMANDE
-            // ----------------------------------------------
+            // ==================================================
+            // PAID
+            // ==================================================
 
             db.prepare(`
                 UPDATE orders
@@ -305,8 +558,11 @@ app.post(
 
                 WHERE id = ?
             `).run(
+
                 "paid",
+
                 subscriptionId,
+
                 order.id
             );
 
@@ -333,32 +589,34 @@ app.post(
             // ==================================================
 
             /*
-                PROCHAINE ÉTAPE :
+                POUR LE MOMENT :
 
-                1. Choisir un node
-                2. Appeler l'API Pterodactyl
-                3. Créer le serveur Minecraft
-                4. Enregistrer son ID
-                5. Passer status à "active"
-                6. Envoyer l'email
+                Nous n'avons pas encore accès
+                à Pterodactyl.
+
+                On prépare donc la commande
+                pour le futur provisioning.
             */
 
             db.prepare(`
                 UPDATE orders
+
                 SET
                     status = ?,
                     updated_at = CURRENT_TIMESTAMP
+
                 WHERE id = ?
             `).run(
-                "provisioning",
+
+                "waiting_for_pterodactyl",
+
                 order.id
             );
 
 
             console.log(
-                `⚙️ Commande #${order.id} → provisioning`
+                `⏳ Commande #${order.id} → waiting_for_pterodactyl`
             );
-
         }
 
 
@@ -366,97 +624,82 @@ app.post(
         // ABONNEMENT PAYÉ
         // ==================================================
 
-// ==================================================
-// ABONNEMENT PAYÉ
-// ==================================================
+        else if (
+            event.type ===
+            "invoice.paid"
+        ) {
 
-else if (
-    event.type === "invoice.paid"
-) {
-
-    const invoice =
-        event.data.object;
+            const invoice =
+                event.data.object;
 
 
-    const subscriptionId =
-        typeof invoice.subscription === "string"
-            ? invoice.subscription
-            : invoice.subscription?.id;
+            const subscriptionId =
+                typeof invoice.subscription ===
+                "string"
+
+                    ? invoice.subscription
+
+                    : invoice
+                        .subscription
+                        ?.id;
 
 
-    if (subscriptionId) {
+            if (subscriptionId) {
 
-        const order =
-            db
-                .prepare(`
-                    SELECT *
-                    FROM orders
-                    WHERE stripe_subscription_id = ?
-                `)
-                .get(
-                    subscriptionId
-                );
-
-
-        if (!order) {
-
-            console.log(
-                `ℹ️ Aucun ordre X.0 trouvé pour l'abonnement ${subscriptionId}.`
-            );
-
-        } else {
-
-            /*
-                IMPORTANT :
-
-                Un paiement d'abonnement Stripe réussi
-                ne signifie PAS que le serveur Minecraft
-                est déjà créé.
-
-                Tant que Pterodactyl n'a pas créé le serveur,
-                on conserve le statut "provisioning".
-
-                C'est le futur provisioning Pterodactyl
-                qui passera la commande à "active".
-            */
-
-            if (
-                order.status === "active"
-            ) {
-
-                console.log(
-                    `ℹ️ Commande #${order.id} déjà active.`
-                );
-
-            } else {
-
-                db.prepare(`
-                    UPDATE orders
-
-                    SET
-                        updated_at = CURRENT_TIMESTAMP
-
-                    WHERE id = ?
-                `).run(
-                    order.id
-                );
+                const order =
+                    db
+                        .prepare(`
+                            SELECT *
+                            FROM orders
+                            WHERE stripe_subscription_id = ?
+                        `)
+                        .get(
+                            subscriptionId
+                        );
 
 
-                console.log(
-                    `💳 Abonnement ${subscriptionId} payé.`
-                );
+                if (!order) {
 
-                console.log(
-                    `⚙️ Commande #${order.id} conservée en ${order.status}.`
-                );
+                    console.log(
+                        `ℹ️ Aucun ordre X.0 trouvé pour l'abonnement ${subscriptionId}.`
+                    );
 
+                } else {
+
+                    if (
+                        order.status ===
+                        "active"
+                    ) {
+
+                        console.log(
+                            `ℹ️ Commande #${order.id} déjà active.`
+                        );
+
+                    } else {
+
+                        db.prepare(`
+                            UPDATE orders
+
+                            SET
+                                updated_at = CURRENT_TIMESTAMP
+
+                            WHERE id = ?
+                        `).run(
+                            order.id
+                        );
+
+
+                        console.log(
+                            `💳 Abonnement ${subscriptionId} payé.`
+                        );
+
+                        console.log(
+                            `⏳ Commande #${order.id} conservée en ${order.status}.`
+                        );
+                    }
+                }
             }
-
         }
-
-    }
-
-}
 
 
         // ==================================================
@@ -473,9 +716,14 @@ else if (
 
 
             const subscriptionId =
-                typeof invoice.subscription === "string"
+                typeof invoice.subscription ===
+                "string"
+
                     ? invoice.subscription
-                    : invoice.subscription?.id;
+
+                    : invoice
+                        .subscription
+                        ?.id;
 
 
             if (subscriptionId) {
@@ -492,16 +740,16 @@ else if (
                     subscriptionId
                 );
 
+
                 console.log(
                     `⚠️ Paiement échoué pour ${subscriptionId}`
                 );
             }
-
         }
 
 
         // ==================================================
-        // ABONNEMENT SUPPRIMÉ
+        // ABONNEMENT ANNULÉ
         // ==================================================
 
         else if (
@@ -535,7 +783,6 @@ else if (
         return res.json({
             received: true
         });
-
     }
 );
 
@@ -545,61 +792,9 @@ else if (
 // IMPORTANT : APRÈS LE WEBHOOK
 // ======================================================
 
-app.use(express.json());
-
-
-// ======================================================
-// JWT
-// ======================================================
-
-function authenticateToken(
-    req,
-    res,
-    next
-) {
-
-    const authHeader =
-        req.headers["authorization"];
-
-    const token =
-        authHeader &&
-        authHeader.split(" ")[1];
-
-
-    if (!token) {
-
-        return res.status(401).json({
-            success: false,
-            message: "Token manquant."
-        });
-
-    }
-
-
-    jwt.verify(
-        token,
-        JWT_SECRET,
-        (error, user) => {
-
-            if (error) {
-
-                return res.status(403).json({
-                    success: false,
-                    message:
-                        "Token invalide ou expiré."
-                });
-
-            }
-
-
-            req.user = user;
-
-            next();
-
-        }
-    );
-
-}
+app.use(
+    express.json()
+);
 
 
 // ======================================================
@@ -612,17 +807,19 @@ app.get(
 
         res.json({
 
-            name: "X.0 API",
+            name:
+                "X.0 API",
 
-            version: "0.2.0",
+            version:
+                "0.3.0",
 
-            status: "online",
+            status:
+                "online",
 
             infrastructure:
                 "Pterodactyl-ready"
 
         });
-
     }
 );
 
@@ -633,6 +830,7 @@ app.get(
 
 app.post(
     "/register",
+
     async (req, res) => {
 
         try {
@@ -643,7 +841,10 @@ app.post(
             } = req.body;
 
 
-            if (!email || !password) {
+            if (
+                !email ||
+                !password
+            ) {
 
                 return res.status(400).json({
 
@@ -653,11 +854,12 @@ app.post(
                         "Email et mot de passe obligatoires."
 
                 });
-
             }
 
 
-            if (password.length < 8) {
+            if (
+                password.length < 8
+            ) {
 
                 return res.status(400).json({
 
@@ -667,7 +869,6 @@ app.post(
                         "Le mot de passe doit contenir au moins 8 caractères."
 
                 });
-
             }
 
 
@@ -699,7 +900,6 @@ app.post(
                         "Un compte existe déjà avec cet email."
 
                 });
-
             }
 
 
@@ -725,7 +925,7 @@ app.post(
                     );
 
 
-            res.status(201).json({
+            return res.status(201).json({
 
                 success: true,
 
@@ -744,9 +944,7 @@ app.post(
 
             });
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             console.error(
                 "❌ Erreur inscription :",
@@ -754,7 +952,7 @@ app.post(
             );
 
 
-            res.status(500).json({
+            return res.status(500).json({
 
                 success: false,
 
@@ -762,9 +960,7 @@ app.post(
                     "Erreur interne du serveur."
 
             });
-
         }
-
     }
 );
 
@@ -775,6 +971,7 @@ app.post(
 
 app.post(
     "/login",
+
     async (req, res) => {
 
         try {
@@ -785,7 +982,10 @@ app.post(
             } = req.body;
 
 
-            if (!email || !password) {
+            if (
+                !email ||
+                !password
+            ) {
 
                 return res.status(400).json({
 
@@ -795,7 +995,6 @@ app.post(
                         "Email et mot de passe obligatoires."
 
                 });
-
             }
 
 
@@ -827,7 +1026,6 @@ app.post(
                         "Email ou mot de passe incorrect."
 
                 });
-
             }
 
 
@@ -848,9 +1046,12 @@ app.post(
                         "Email ou mot de passe incorrect."
 
                 });
-
             }
 
+
+            // ==================================================
+            // JWT
+            // ==================================================
 
             const token =
                 jwt.sign(
@@ -871,14 +1072,28 @@ app.post(
                 );
 
 
-            res.json({
+            // ==================================================
+            // COOKIE HTTPONLY
+            // ==================================================
 
-                success: true,
+            setSessionCookie(
+                res,
+                token
+            );
+
+
+            // ==================================================
+            // IMPORTANT :
+            // LE TOKEN N'EST PLUS RENVOYÉ AU JAVASCRIPT
+            // ==================================================
+
+            return res.json({
+
+                success:
+                    true,
 
                 message:
                     "Connexion réussie.",
-
-                token,
 
                 user: {
 
@@ -892,9 +1107,7 @@ app.post(
 
             });
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             console.error(
                 "❌ Erreur connexion :",
@@ -902,17 +1115,95 @@ app.post(
             );
 
 
-            res.status(500).json({
+            return res.status(500).json({
 
-                success: false,
+                success:
+                    false,
 
                 message:
                     "Erreur interne du serveur."
 
             });
+        }
+    }
+);
 
+
+// ======================================================
+// UTILISATEUR CONNECTÉ
+// ======================================================
+
+app.get(
+    "/me",
+
+    authenticateToken,
+
+    (req, res) => {
+
+        const user =
+            db
+                .prepare(`
+                    SELECT
+                        id,
+                        email,
+                        created_at
+                    FROM users
+                    WHERE id = ?
+                `)
+                .get(
+                    req.user.id
+                );
+
+
+        if (!user) {
+
+            return res.status(401).json({
+
+                success:
+                    false,
+
+                message:
+                    "Utilisateur introuvable."
+
+            });
         }
 
+
+        return res.json({
+
+            success:
+                true,
+
+            user
+
+        });
+    }
+);
+
+
+// ======================================================
+// DÉCONNEXION
+// ======================================================
+
+app.post(
+    "/logout",
+
+    (req, res) => {
+
+        clearSessionCookie(
+            res
+        );
+
+
+        return res.json({
+
+            success:
+                true,
+
+            message:
+                "Déconnexion réussie."
+
+        });
     }
 );
 
@@ -962,7 +1253,6 @@ const plans = {
             1799
 
     }
-
 };
 
 
@@ -972,7 +1262,9 @@ const plans = {
 
 app.post(
     "/create-checkout-session",
+
     authenticateToken,
+
     async (req, res) => {
 
         try {
@@ -990,24 +1282,52 @@ app.post(
 
                 return res.status(400).json({
 
-                    success: false,
+                    success:
+                        false,
 
                     message:
                         "Offre invalide."
 
                 });
-
             }
 
 
-            const baseUrl =
-                process.env.PUBLIC_URL ||
-                "http://localhost:3000";
+            // ==================================================
+            // SÉCURITÉ :
+            // ON RÉCUPÈRE L'UTILISATEUR DEPUIS LA DB
+            // ==================================================
+
+            const user =
+                db
+                    .prepare(`
+                        SELECT
+                            id,
+                            email
+                        FROM users
+                        WHERE id = ?
+                    `)
+                    .get(
+                        req.user.id
+                    );
 
 
-            // ==============================================
-            // STRIPE CHECKOUT
-            // ==============================================
+            if (!user) {
+
+                return res.status(401).json({
+
+                    success:
+                        false,
+
+                    message:
+                        "Utilisateur introuvable."
+
+                });
+            }
+
+
+            // ==================================================
+            // STRIPE
+            // ==================================================
 
             const session =
                 await stripe
@@ -1019,20 +1339,13 @@ app.post(
                             "subscription",
 
 
-                        // IMPORTANT :
-                        // payment_method_types a été supprimé.
-                        // Stripe gère maintenant automatiquement
-                        // les moyens de paiement activés
-                        // dans le Dashboard.
-
-
                         customer_email:
-                            req.user.email,
+                            user.email,
 
 
                         client_reference_id:
                             String(
-                                req.user.id
+                                user.id
                             ),
 
 
@@ -1040,7 +1353,7 @@ app.post(
 
                             user_id:
                                 String(
-                                    req.user.id
+                                    user.id
                                 ),
 
                             plan:
@@ -1099,18 +1412,18 @@ app.post(
 
 
                         success_url:
-                            `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+                            `${PUBLIC_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
 
 
                         cancel_url:
-                            `${baseUrl}/checkout.html`
+                            `${PUBLIC_URL}/checkout.html?plan=${encodeURIComponent(plan)}`
 
                     });
 
 
-            // ==============================================
-            // ENREGISTREMENT COMMANDE
-            // ==============================================
+            // ==================================================
+            // COMMANDE X.0
+            // ==================================================
 
             db.prepare(`
                 INSERT INTO orders (
@@ -1125,7 +1438,7 @@ app.post(
                 VALUES (?, ?, ?, ?, ?, ?)
             `).run(
 
-                req.user.id,
+                user.id,
 
                 session.id,
 
@@ -1136,15 +1449,23 @@ app.post(
                 selectedPlan.price,
 
                 "pending"
-
             );
 
 
-            // ==============================================
-            // RÉPONSE
-            // ==============================================
+            console.log(
+                `🛒 Commande créée pour ${user.email}`
+            );
 
-            res.json({
+            console.log(
+                `🎮 Plan : ${plan}`
+            );
+
+            console.log(
+                `💰 Prix : ${selectedPlan.price / 100} €`
+            );
+
+
+            return res.json({
 
                 success:
                     true,
@@ -1154,9 +1475,7 @@ app.post(
 
             });
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             console.error(
                 "❌ Erreur Stripe :",
@@ -1164,7 +1483,7 @@ app.post(
             );
 
 
-            res.status(500).json({
+            return res.status(500).json({
 
                 success:
                     false,
@@ -1173,20 +1492,20 @@ app.post(
                     "Impossible de créer la session Stripe."
 
             });
-
         }
-
     }
 );
 
 
 // ======================================================
-// RÉCUPÉRER LES COMMANDES DU CLIENT
+// COMMANDES DU CLIENT
 // ======================================================
 
 app.get(
     "/api/orders",
+
     authenticateToken,
+
     (req, res) => {
 
         try {
@@ -1217,17 +1536,16 @@ app.get(
                     );
 
 
-            res.json({
+            return res.json({
 
-                success: true,
+                success:
+                    true,
 
                 orders
 
             });
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             console.error(
                 "❌ Erreur récupération commandes :",
@@ -1235,17 +1553,16 @@ app.get(
             );
 
 
-            res.status(500).json({
+            return res.status(500).json({
 
-                success: false,
+                success:
+                    false,
 
                 message:
                     "Impossible de récupérer les commandes."
 
             });
-
         }
-
     }
 );
 
@@ -1256,11 +1573,23 @@ app.get(
 
 app.listen(
     PORT,
+
     () => {
 
         console.log(
             `🚀 X.0 API démarrée sur le port ${PORT}`
         );
 
+        console.log(
+            `🌐 Frontend : ${FRONTEND_PATH}`
+        );
+
+        console.log(
+            `💳 Stripe : configuré`
+        );
+
+        console.log(
+            `🐉 Pterodactyl : prêt pour intégration`
+        );
     }
 );
