@@ -1,40 +1,34 @@
 /* ============================================================
    X.0 — CHECKOUT
+   Production : API sur le même domaine
 ============================================================ */
 
 // ============================================================
 // CONFIGURATION API
 // ============================================================
 
-// Vide = même domaine en production
-// Exemple local : http://localhost:3000
+// Même domaine que le site.
+//
+// Exemple production :
+// https://x0-hosting.onrender.com
+//
+// Le navigateur appellera automatiquement :
+// /create-checkout-session
+//
+// Plus de localhost.
 const API_URL = "";
-
-// ============================================================
-// RÉCUPÉRATION DU TOKEN
-// ============================================================
-
-const token = localStorage.getItem("x0_token");
 
 // ============================================================
 // RÉCUPÉRATION DU PLAN
 // ============================================================
 
-// Priorité : URL → localStorage
-const urlParams = new URLSearchParams(window.location.search);
-
-const urlPlan = urlParams.get("plan");
-
-if (urlPlan) {
-    localStorage.setItem(
-        "x0_selected_plan",
-        urlPlan
+const urlParams =
+    new URLSearchParams(
+        window.location.search
     );
-}
 
 const selectedPlan =
-    urlPlan ||
-    localStorage.getItem("x0_selected_plan");
+    urlParams.get("plan");
 
 // ============================================================
 // OFFRES X.0
@@ -43,38 +37,62 @@ const selectedPlan =
 const plans = {
 
     starter: {
+
         name: "X.0 Starter",
+
         price: "2,99 €",
+
         ram: "2 Go",
+
         cpu: "100%",
+
         storage: "20 Go",
+
         database: "1"
     },
 
     standard: {
+
         name: "X.0 Standard",
+
         price: "5,99 €",
+
         ram: "4 Go",
+
         cpu: "200%",
+
         storage: "40 Go",
+
         database: "2"
     },
 
     pro: {
+
         name: "X.0 Pro",
+
         price: "9,99 €",
+
         ram: "8 Go",
+
         cpu: "300%",
+
         storage: "80 Go",
+
         database: "4"
     },
 
     premium: {
+
         name: "X.0 Premium",
+
         price: "17,99 €",
+
         ram: "16 Go",
+
         cpu: "400%",
+
         storage: "160 Go",
+
         database: "8"
     }
 
@@ -85,34 +103,54 @@ const plans = {
 // ============================================================
 
 const planNameElement =
-    document.getElementById("planName");
+    document.getElementById(
+        "planName"
+    );
 
 const planPriceElement =
-    document.getElementById("planPrice");
+    document.getElementById(
+        "planPrice"
+    );
 
 const planRamElement =
-    document.getElementById("planRam");
+    document.getElementById(
+        "planRam"
+    );
 
 const planCpuElement =
-    document.getElementById("planCpu");
+    document.getElementById(
+        "planCpu"
+    );
 
 const planStorageElement =
-    document.getElementById("planStorage");
+    document.getElementById(
+        "planStorage"
+    );
 
 const planDatabaseElement =
-    document.getElementById("planDatabase");
+    document.getElementById(
+        "planDatabase"
+    );
 
 const orderPriceElement =
-    document.getElementById("orderPrice");
+    document.getElementById(
+        "orderPrice"
+    );
 
 const totalPriceElement =
-    document.getElementById("totalPrice");
+    document.getElementById(
+        "totalPrice"
+    );
 
 const checkoutMessageElement =
-    document.getElementById("checkoutMessage");
+    document.getElementById(
+        "checkoutMessage"
+    );
 
 const checkoutButton =
-    document.querySelector(".checkout-button");
+    document.querySelector(
+        ".checkout-button"
+    );
 
 // ============================================================
 // MESSAGE
@@ -120,27 +158,14 @@ const checkoutButton =
 
 function showMessage(message) {
 
-    if (!checkoutMessageElement) {
+    if (
+        !checkoutMessageElement
+    ) {
         return;
     }
 
     checkoutMessageElement.textContent =
         message;
-}
-
-// ============================================================
-// VÉRIFICATION DU TOKEN
-// ============================================================
-
-if (!token) {
-
-    alert(
-        "🔐 Connecte-toi à ton compte X.0 avant de commander."
-    );
-
-    window.location.href =
-        "index.html";
-
 }
 
 // ============================================================
@@ -158,7 +183,6 @@ if (
 
     window.location.href =
         "minecraft-hosting.html";
-
 }
 
 // ============================================================
@@ -178,58 +202,49 @@ if (plan) {
 
         planNameElement.textContent =
             plan.name;
-
     }
 
     if (planPriceElement) {
 
         planPriceElement.textContent =
             plan.price;
-
     }
 
     if (planRamElement) {
 
         planRamElement.textContent =
             plan.ram;
-
     }
 
     if (planCpuElement) {
 
         planCpuElement.textContent =
             plan.cpu;
-
     }
 
     if (planStorageElement) {
 
         planStorageElement.textContent =
             plan.storage;
-
     }
 
     if (planDatabaseElement) {
 
         planDatabaseElement.textContent =
             plan.database;
-
     }
 
     if (orderPriceElement) {
 
         orderPriceElement.textContent =
             plan.price;
-
     }
 
     if (totalPriceElement) {
 
         totalPriceElement.textContent =
             plan.price;
-
     }
-
 }
 
 // ============================================================
@@ -239,35 +254,12 @@ if (plan) {
 async function continueCheckout() {
 
     // ========================================================
-    // VÉRIFICATION SESSION
-    // ========================================================
-
-    const currentToken =
-        localStorage.getItem("x0_token");
-
-    if (!currentToken) {
-
-        alert(
-            "🔐 Ta session a expiré. Connecte-toi à nouveau."
-        );
-
-        window.location.href =
-            "index.html";
-
-        return;
-    }
-
-    // ========================================================
     // VÉRIFICATION PLAN
     // ========================================================
 
-    const currentPlan =
-        localStorage.getItem("x0_selected_plan") ||
-        urlPlan;
-
     if (
-        !currentPlan ||
-        !plans[currentPlan]
+        !selectedPlan ||
+        !plans[selectedPlan]
     ) {
 
         alert(
@@ -319,23 +311,20 @@ async function continueCheckout() {
                 {
                     method: "POST",
 
+                    credentials: "include",
+
                     headers: {
 
                         "Content-Type":
-                            "application/json",
-
-                        "Authorization":
-                            `Bearer ${currentToken}`
-
+                            "application/json"
                     },
 
                     body: JSON.stringify({
 
                         plan:
-                            currentPlan
+                            selectedPlan
 
                     })
-
                 }
             );
 
@@ -355,7 +344,6 @@ async function continueCheckout() {
             throw new Error(
                 "Le serveur X.0 a renvoyé une réponse invalide."
             );
-
         }
 
         // ====================================================
@@ -368,7 +356,6 @@ async function continueCheckout() {
                 data.message ||
                 "Erreur serveur X.0."
             );
-
         }
 
         if (!data.success) {
@@ -377,7 +364,6 @@ async function continueCheckout() {
                 data.message ||
                 "Impossible de créer la session Stripe."
             );
-
         }
 
         // ====================================================
@@ -389,7 +375,6 @@ async function continueCheckout() {
             throw new Error(
                 "Stripe n'a pas retourné d'URL de paiement."
             );
-
         }
 
         // ====================================================
@@ -402,7 +387,7 @@ async function continueCheckout() {
 
         console.log(
             "🛒 Plan :",
-            currentPlan
+            selectedPlan
         );
 
         console.log(
@@ -473,8 +458,5 @@ console.log(
 );
 
 console.log(
-    "🔐 Token présent :",
-    Boolean(
-        localStorage.getItem("x0_token")
-    )
-); 
+    "🌐 API : même domaine"
+);
