@@ -4,17 +4,14 @@
 
 
 // ========================================
-// VÉRIFICATION CONNEXION
+// AUTHENTIFICATION
 // ========================================
 
 const token =
     localStorage.getItem("x0_token");
 
-const userData =
-    localStorage.getItem("x0_user");
 
-
-if (!token || !userData) {
+if (!token) {
 
     window.location.href =
         "index.html";
@@ -22,6 +19,171 @@ if (!token || !userData) {
 }
 
 
+// ========================================
+// CHARGER LE VRAI UTILISATEUR
+// ========================================
+
+async function loadCurrentUser() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/me",
+                {
+
+                    method:
+                        "GET",
+
+                    headers: {
+
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Content-Type":
+                            "application/json"
+
+                    }
+
+                }
+            );
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.removeItem(
+                "x0_token"
+            );
+
+            localStorage.removeItem(
+                "x0_user"
+            );
+
+            window.location.href =
+                "index.html";
+
+            return false;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success ||
+            !data.user
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Utilisateur introuvable."
+            );
+
+        }
+
+
+        // ========================================
+        // UTILISATEUR RÉEL
+        // ========================================
+
+        const user =
+            data.user;
+
+
+        // On met également à jour le localStorage
+        // avec les informations vérifiées par le serveur.
+
+        localStorage.setItem(
+            "x0_user",
+            JSON.stringify(user)
+        );
+
+
+        // ========================================
+        // EMAIL NAVBAR
+        // ========================================
+
+        const userEmail =
+            document.getElementById(
+                "userEmail"
+            );
+
+
+        if (userEmail) {
+
+            userEmail.textContent =
+                user.email;
+
+        }
+
+
+        // ========================================
+        // EMAIL COMPTE
+        // ========================================
+
+        const accountEmail =
+            document.getElementById(
+                "accountEmail"
+            );
+
+
+        if (accountEmail) {
+
+            accountEmail.textContent =
+                user.email;
+
+        }
+
+
+        // ========================================
+        // NOM AFFICHÉ
+        // ========================================
+
+        const userName =
+            document.getElementById(
+                "userName"
+            );
+
+
+        if (userName) {
+
+            const name =
+                user.email.split("@")[0];
+
+            userName.textContent =
+                name + " 👋";
+
+        }
+
+
+        console.log(
+            "👤 Compte X.0 vérifié :",
+            user.email
+        );
+
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "❌ Erreur récupération compte :",
+            error
+        );
+
+        return false;
+
+    }
+
+}
 // ========================================
 // CONFIGURATION DES PLANS
 // ========================================
@@ -998,4 +1160,20 @@ document.addEventListener(
 // CHARGEMENT INITIAL
 // ========================================
 
-loadServices();
+async function initializeDashboard() {
+
+    const authenticated =
+        await loadCurrentUser();
+
+
+    if (!authenticated) {
+        return;
+    }
+
+
+    await loadServices();
+
+}
+
+
+initializeDashboard();

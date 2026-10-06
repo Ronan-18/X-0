@@ -1,6 +1,91 @@
 <!DOCTYPE html>
 <html lang="fr">
 
+<!-- ==================================================
+     X.0 NAVBAR
+================================================== -->
+
+<header class="navbar">
+
+    <div class="navbar-container">
+
+        <!-- LOGO -->
+
+        <a
+            href="index.html#accueil"
+            class="navbar-logo"
+        >
+            X.0
+        </a>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="navbar-links">
+
+            <a
+                href="index.html#accueil"
+            >
+                Accueil
+            </a>
+
+            <a
+                href="index.html#services"
+            >
+                Services
+            </a>
+
+            <a
+                href="minecraft.html"
+            >
+                Game Hosting
+            </a>
+
+            <a
+                href="index.html#infrastructure"
+            >
+                Infrastructure
+            </a>
+
+        </nav>
+
+
+        <!-- COMPTE -->
+
+        <div
+            class="navbar-account"
+            id="navbarAccount"
+        >
+
+            <a
+                href="dashboard.html"
+                class="navbar-account-link"
+            >
+
+                👤
+
+                <span
+                    id="navbarUserEmail"
+                >
+                    Mon compte
+                </span>
+
+            </a>
+
+            <button
+                type="button"
+                class="navbar-logout"
+                onclick="logoutFromNavbar()"
+            >
+                Déconnexion
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,15 +130,10 @@
                     <strong>Minecraft Hosting</strong>
                 </div>
 
-            </div>
-
-            <a href="index.html">Accueil</a>
-<a href="dashboard.html">Mon compte</a>
-<a href="minecraft.html">Game Hosting</a>
-
-        </div>
 
     </main>
+
+    <script src="js/navbar.js"></script>
 
 </body>
 

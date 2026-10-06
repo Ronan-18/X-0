@@ -399,6 +399,75 @@ function authenticateToken(
     next();
 }
 
+// ======================================================
+// UTILISATEUR CONNECTÉ
+// ======================================================
+
+app.get(
+    "/me",
+    authenticateToken,
+    (req, res) => {
+
+        try {
+
+            const user =
+                db
+                    .prepare(`
+                        SELECT
+                            id,
+                            email,
+                            created_at
+                        FROM users
+                        WHERE id = ?
+                    `)
+                    .get(req.user.id);
+
+            if (!user) {
+
+                return res.status(404).json({
+                    success: false,
+                    message: "Utilisateur introuvable."
+                });
+
+            }
+
+            res.json({
+
+                success: true,
+
+                user: {
+
+                    id: user.id,
+
+                    email: user.email,
+
+                    created_at: user.created_at
+
+                }
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "❌ Erreur /me :",
+                error
+            );
+
+            res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Impossible de récupérer le compte."
+
+            });
+
+        }
+
+    }
+);
+
 
 // ======================================================
 // STRIPE WEBHOOK

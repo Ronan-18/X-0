@@ -41,54 +41,88 @@
 
 <body>
 
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
+<!-- ==================================================
+     X.0 NAVBAR
+================================================== -->
 
 <header class="navbar">
 
-  
-<a
-    href="index.html"
-    class="logo"
-    aria-label="X.0 — Accueil"
->
-    X<span>.</span>0
-</a>
+    <div class="navbar-container">
+
+        <!-- LOGO -->
+
+        <a
+            href="index.html#accueil"
+            class="navbar-logo"
+        >
+            X.0
+        </a>
 
 
-<nav aria-label="Navigation principale">
+        <!-- NAVIGATION -->
 
-    <a href="index.html">
-        Accueil
-    </a>
+        <nav class="navbar-links">
 
-    <a href="game-hosting.html">
-        Game Hosting
-    </a>
+            <a
+                href="index.html#accueil"
+            >
+                Accueil
+            </a>
 
-    <a href="index.html#infrastructure">
-        Infrastructure
-    </a>
+            <a
+                href="index.html#services"
+            >
+                Services
+            </a>
 
-    <a href="dashboard.html">
-        Mon compte
-    </a>
+            <a
+                href="minecraft.html"
+            >
+                Game Hosting
+            </a>
 
-</nav>
+            <a
+                href="index.html#infrastructure"
+            >
+                Infrastructure
+            </a>
+
+        </nav>
 
 
-<div class="nav-buttons">
+        <!-- COMPTE -->
 
-    <a
-        href="index.html"
-        class="btn-secondary"
-    >
-        ← Accueil
-    </a>
+        <div
+            class="navbar-account"
+            id="navbarAccount"
+        >
 
-</div>
-  
+            <a
+                href="dashboard.html"
+                class="navbar-account-link"
+            >
+
+                👤
+
+                <span
+                    id="navbarUserEmail"
+                >
+                    Mon compte
+                </span>
+
+            </a>
+
+            <button
+                type="button"
+                class="navbar-logout"
+                onclick="logoutFromNavbar()"
+            >
+                Déconnexion
+            </button>
+
+        </div>
+
+    </div>
 
 </header>
 
@@ -589,6 +623,8 @@ function orderPlan(plan) {
 }
 
 </script>
+
+<script src="js/navbar.js"></script>
 
 </body>
 

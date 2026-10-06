@@ -66,65 +66,88 @@
 
 <body>
 
-<!-- =====================================================
-     NAVBAR
-===================================================== -->
+<!-- ==================================================
+     X.0 NAVBAR
+================================================== -->
 
 <header class="navbar">
 
- 
-<a
-    href="index.html"
-    class="logo"
-    aria-label="X.0 — Accueil"
->
-    X<span>.</span>0
-</a>
+    <div class="navbar-container">
 
-<nav aria-label="Navigation principale">
+        <!-- LOGO -->
 
-    <a href="index.html#accueil">
-        Accueil
-    </a>
+        <a
+            href="index.html#accueil"
+            class="navbar-logo"
+        >
+            X.0
+        </a>
 
-    <a href="index.html#services">
-        Services
-    </a>
 
-    <a
-        href="minecraft-hosting.html"
-        class="active"
-    >
-        Minecraft
-    </a>
+        <!-- NAVIGATION -->
 
-    <a href="index.html#infrastructure">
-        Infrastructure
-    </a>
+        <nav class="navbar-links">
 
-</nav>
+            <a
+                href="index.html#accueil"
+            >
+                Accueil
+            </a>
 
-<div
-    class="nav-buttons"
-    id="authButtons"
->
+            <a
+                href="index.html#services"
+            >
+                Services
+            </a>
 
-    <button
-        class="btn-secondary"
-        onclick="openLogin()"
-    >
-        Connexion
-    </button>
+            <a
+                href="minecraft.html"
+            >
+                Game Hosting
+            </a>
 
-    <button
-        class="btn-primary"
-        onclick="openRegister()"
-    >
-        Créer un compte
-    </button>
+            <a
+                href="index.html#infrastructure"
+            >
+                Infrastructure
+            </a>
 
-</div>
- 
+        </nav>
+
+
+        <!-- COMPTE -->
+
+        <div
+            class="navbar-account"
+            id="navbarAccount"
+        >
+
+            <a
+                href="dashboard.html"
+                class="navbar-account-link"
+            >
+
+                👤
+
+                <span
+                    id="navbarUserEmail"
+                >
+                    Mon compte
+                </span>
+
+            </a>
+
+            <button
+                type="button"
+                class="navbar-logout"
+                onclick="logoutFromNavbar()"
+            >
+                Déconnexion
+            </button>
+
+        </div>
+
+    </div>
 
 </header>
 
@@ -1406,6 +1429,7 @@
 </div>
 
 <script src="js/app.js"></script>
+<script src="js/navbar.js"></script>
 
 </body>
 

@@ -16,38 +16,90 @@
 
 <body>
 
-    <!-- ============================= -->
-    <!-- NAVBAR -->
-    <!-- ============================= -->
+<!-- ==================================================
+     X.0 NAVBAR
+================================================== -->
 
-    <header class="navbar">
+<header class="navbar">
 
-        <div class="logo">
-            X<span>.</span>0
-        </div>
+    <div class="navbar-container">
 
-        <nav>
-<a href="index.html">Accueil</a>
-<a href="minecraft.html">Services</a>
-<a href="dashboard.html">Mon compte</a>
+        <!-- LOGO -->
+
+        <a
+            href="index.html#accueil"
+            class="navbar-logo"
+        >
+            X.0
+        </a>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="navbar-links">
+
+            <a
+                href="index.html#accueil"
+            >
+                Accueil
+            </a>
+
+            <a
+                href="index.html#services"
+            >
+                Services
+            </a>
+
+            <a
+                href="minecraft.html"
+            >
+                Game Hosting
+            </a>
+
+            <a
+                href="index.html#infrastructure"
+            >
+                Infrastructure
+            </a>
+
         </nav>
 
-        <div class="nav-buttons">
 
-            <span id="userEmail" class="user-email">
-                Chargement...
-            </span>
+        <!-- COMPTE -->
+
+        <div
+            class="navbar-account"
+            id="navbarAccount"
+        >
+
+            <a
+                href="dashboard.html"
+                class="navbar-account-link"
+            >
+
+                👤
+
+                <span
+                    id="navbarUserEmail"
+                >
+                    Mon compte
+                </span>
+
+            </a>
 
             <button
-                class="btn-secondary"
-                onclick="logout()"
+                type="button"
+                class="navbar-logout"
+                onclick="logoutFromNavbar()"
             >
                 Déconnexion
             </button>
 
         </div>
 
-    </header>
+    </div>
+
+</header>
 
 
     <!-- ============================= -->
@@ -349,6 +401,7 @@
 
 
     <script src="js/dashboard.js"></script>
+    <script src="js/navbar.js"></script>
 
 </body>
 
