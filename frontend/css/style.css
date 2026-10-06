@@ -5493,3 +5493,491 @@ h2 span {
 
 
 }
+
+/* ============================================================
+   X.0 — NAVBAR
+============================================================ */
+
+:root {
+    --x0-blue: #2563eb;
+    --x0-cyan: #06b6d4;
+    --x0-bg: #050914;
+    --x0-bg-soft: rgba(8, 15, 30, 0.82);
+    --x0-border: rgba(255, 255, 255, 0.08);
+    --x0-text: #f8fafc;
+    --x0-muted: #94a3b8;
+}
+
+
+/* ============================================================
+   NAVBAR PRINCIPALE
+============================================================ */
+
+.x0-navbar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 9999;
+
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+
+    background: rgba(5, 9, 20, 0.78);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border-bottom: 1px solid var(--x0-border);
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* ============================================================
+   CONTENEUR
+============================================================ */
+
+.x0-navbar-container {
+    width: 100%;
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding: 0 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+
+/* ============================================================
+   LOGO
+============================================================ */
+
+.x0-navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    text-decoration: none;
+
+    color: var(--x0-text);
+
+    font-size: 21px;
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
+
+    white-space: nowrap;
+}
+
+
+.x0-navbar-logo-mark {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--x0-blue),
+            var(--x0-cyan)
+        );
+
+    color: white;
+
+    font-size: 17px;
+    font-weight: 900;
+
+    box-shadow:
+        0 0 25px rgba(37, 99, 235, 0.28);
+}
+
+
+.x0-navbar-logo span {
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #a5f3fc
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+
+.x0-navbar-links {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    height: 100%;
+}
+
+
+.x0-navbar-links a {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    height: 42px;
+
+    padding: 0 15px;
+
+    border-radius: 10px;
+
+    color: var(--x0-muted);
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.x0-navbar-links a:hover {
+    color: white;
+
+    background:
+        rgba(255, 255, 255, 0.055);
+}
+
+
+/* ============================================================
+   LIEN ACTIF
+============================================================ */
+
+.x0-navbar-links a.active {
+    color: white;
+
+    background:
+        rgba(37, 99, 235, 0.10);
+}
+
+
+.x0-navbar-links a.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 15px;
+    right: 15px;
+
+    bottom: 3px;
+
+    height: 2px;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--x0-blue),
+            var(--x0-cyan)
+        );
+
+    box-shadow:
+        0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+
+/* ============================================================
+   PARTIE DROITE
+============================================================ */
+
+.x0-navbar-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   BOUTON COMPTE
+============================================================ */
+
+.x0-navbar-account {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    min-height: 42px;
+
+    padding: 0 17px;
+
+    border-radius: 11px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    background:
+        rgba(255, 255, 255, 0.045);
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.x0-navbar-account:hover {
+    transform: translateY(-1px);
+
+    background:
+        rgba(37, 99, 235, 0.14);
+
+    border-color:
+        rgba(37, 99, 235, 0.4);
+
+    box-shadow:
+        0 8px 25px rgba(37, 99, 235, 0.12);
+}
+
+
+/* ============================================================
+   COMPTE CONNECTÉ
+============================================================ */
+
+.x0-navbar-user {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    max-width: 260px;
+
+    padding: 7px 12px;
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(6, 182, 212, 0.18);
+
+    background:
+        rgba(6, 182, 212, 0.055);
+
+    color: white;
+
+    font-size: 13px;
+}
+
+
+.x0-navbar-user-dot {
+    width: 8px;
+    height: 8px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 10px rgba(34, 197, 94, 0.65);
+}
+
+
+.x0-navbar-user-email {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    color: #cbd5e1;
+}
+
+
+/* ============================================================
+   BOUTON CONNEXION
+============================================================ */
+
+.x0-navbar-login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+
+    padding: 0 16px;
+
+    border-radius: 11px;
+
+    color: #cbd5e1;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    border: 1px solid transparent;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.x0-navbar-login:hover {
+    color: white;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    border-color:
+        rgba(255, 255, 255, 0.08);
+}
+
+
+/* ============================================================
+   BOUTON MENU MOBILE
+============================================================ */
+
+.x0-navbar-menu {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--x0-border);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 20px;
+}
+
+
+/* ============================================================
+   ESPACE SOUS LA NAVBAR
+============================================================ */
+
+body {
+    padding-top: 76px;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .x0-navbar-container {
+        padding: 0 20px;
+    }
+
+
+    .x0-navbar-links {
+        display: none;
+    }
+
+
+    .x0-navbar-menu {
+        display: flex;
+    }
+
+
+    .x0-navbar-actions {
+        margin-left: auto;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .x0-navbar {
+        height: 68px;
+    }
+
+
+    body {
+        padding-top: 68px;
+    }
+
+
+    .x0-navbar-container {
+        padding: 0 14px;
+
+        gap: 10px;
+    }
+
+
+    .x0-navbar-logo {
+        font-size: 18px;
+    }
+
+
+    .x0-navbar-logo-mark {
+        width: 34px;
+        height: 34px;
+
+        border-radius: 9px;
+    }
+
+
+    .x0-navbar-login {
+        display: none;
+    }
+
+
+    .x0-navbar-account {
+        min-height: 38px;
+
+        padding: 0 12px;
+
+        font-size: 13px;
+    }
+
+}
